@@ -30,9 +30,9 @@ namespace JD0MUL_HFT_2022231.Endpoint
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
+                endpoints.MapGet("/", async context =>//
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    await context.Response.WriteAsync("Hello Szia");
                 });
             });
         }
