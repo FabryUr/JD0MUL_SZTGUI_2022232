@@ -13,8 +13,6 @@ namespace JD0MUL_HFT_2022231.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoleId { get; set; }
-
-        public int Priority { get; set; }
         public string RoleName { get; set; }
 
         public int TvShowId { get; set; }
@@ -34,8 +32,7 @@ namespace JD0MUL_HFT_2022231.Models
             RoleId = int.Parse(split[0]);
             TvShowId = int.Parse(split[1]);
             ActorId = int.Parse(split[2]);
-            Priority = int.Parse(split[3]);
-            RoleName = split[4];
+            RoleName = split[3];
         }
     }
 }

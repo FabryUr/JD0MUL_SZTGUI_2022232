@@ -15,17 +15,15 @@ namespace JD0MUL_HFT_2022231.Models
         [StringLength(180)]
         public string Title { get; set; }
 
-        [Range(0, 10000)]
-        public double Income { get; set; }
-
         [Range(0, 10)]
         public double Rating { get; set; }
 
-        public DateTime Release { get; set; }
+        public int ReleaseYear { get; set; }
+        public int EndYear { get; set; }
 
-        public int CreatorId { get; set; }
+        public int StudioId { get; set; }
 
-        public virtual Creator Creator { get; set; }
+        public virtual Studio Studio { get; set; }
 
         public virtual ICollection<Actor> Actors { get; set; }
 
@@ -42,9 +40,9 @@ namespace JD0MUL_HFT_2022231.Models
             string[] split = line.Split('#');
             TvShowId = int.Parse(split[0]);
             Title = split[1];
-            Income = double.Parse(split[2]);
-            CreatorId = int.Parse(split[3]);
-            Release = DateTime.Parse(split[4].Replace('*', '.'));
+            StudioId = int.Parse(split[2]);
+            ReleaseYear = int.Parse(split[3]);
+            EndYear = int.Parse(split[4]);
             Rating = double.Parse(split[5]);
         }
     }

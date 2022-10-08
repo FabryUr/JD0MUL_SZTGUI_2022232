@@ -8,28 +8,28 @@ using System.Threading.Tasks;
 
 namespace JD0MUL_HFT_2022231.Models
 {
-    public class Creator
+    public class Studio
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CreatorId { get; set; }
+        public int StudioId { get; set; }
 
         [Required]
         [StringLength(240)]
-        public string DirectorName { get; set; }
+        public string StudioName { get; set; }
 
         public virtual ICollection<TvShow> TvShows { get; set; }
 
-        public Creator()
+        public Studio()
         {
             TvShows = new HashSet<TvShow>();
         }
 
-        public Creator(string line)
+        public Studio(string line)
         {
             string[] split = line.Split('#');
-            CreatorId = int.Parse(split[0]);
-            DirectorName = split[1];
+            StudioId = int.Parse(split[0]);
+            StudioName = split[1];
             TvShows = new HashSet<TvShow>();
         }
     }
