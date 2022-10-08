@@ -20,9 +20,7 @@ namespace JD0MUL_HFT_2022231.Repository
         {
             if (!builder.IsConfigured)
             {
-                string conn = @"Data Source=(LocalDB)\MSSQLLocalDB;
-                AttachDbFilename=|DataDirectory|\TvShow.mdf;Integrated Security=True;MultipleActiveResultSets=True";
-                builder.UseLazyLoadingProxies().UseSqlServer(conn);
+                builder.UseLazyLoadingProxies().UseInMemoryDatabase("tvShow");
             }
         }
 
