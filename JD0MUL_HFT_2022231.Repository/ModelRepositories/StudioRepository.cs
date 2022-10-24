@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JD0MUL_HFT_2022231.Repository
 {
-    internal class StudioRepository : Repository<Studio>, IRepository<Studio>
+    public class StudioRepository : Repository<Studio>, IRepository<Studio>
     {
         public StudioRepository(TvShowDbContext ctx) : base(ctx)
         {

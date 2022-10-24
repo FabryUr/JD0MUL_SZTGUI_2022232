@@ -1,6 +1,7 @@
 ﻿using JD0MUL_HFT_2022231.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics.Contracts;
 using System.IO;
 
 namespace JD0MUL_HFT_2022231.Repository
@@ -32,7 +33,6 @@ namespace JD0MUL_HFT_2022231.Repository
             .HasForeignKey(tvShow => tvShow.StudioId)
             .OnDelete(DeleteBehavior.Cascade));
 
-
             modelBuilder.Entity<Actor>()
                 .HasMany(x => x.TvShows)
                 .WithMany(x => x.Actors)
@@ -42,17 +42,17 @@ namespace JD0MUL_HFT_2022231.Repository
                 x => x.HasOne(x => x.Actor)
                 .WithMany().HasForeignKey(x => x.ActorId).OnDelete(DeleteBehavior.Cascade));
 
-            modelBuilder.Entity<Role>()
-                .HasOne(r => r.Actor)
-                .WithMany(actor => actor.Roles)
-                .HasForeignKey(r => r.ActorId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Role>(role => role
+            .HasOne(role => role.TvShow)
+            .WithMany(tvShow => tvShow.Roles)
+            .HasForeignKey(role => role.TvShowId)
+            .OnDelete(DeleteBehavior.Cascade));
 
-            modelBuilder.Entity<Role>()
-                .HasOne(r => r.TvShow)
-                .WithMany(movie => movie.Roles)
-                .HasForeignKey(r => r.TvShowId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Role>(role => role
+            .HasOne(role => role.Actor)
+            .WithMany(actor => actor.Roles)
+            .HasForeignKey(role => role.ActorId)
+            .OnDelete(DeleteBehavior.Cascade));
 
             modelBuilder.Entity<TvShow>().HasData(new TvShow[]
             {
@@ -94,8 +94,8 @@ namespace JD0MUL_HFT_2022231.Repository
             });
             modelBuilder.Entity<Role>().HasData(new Role[]
             {
-                new Role("1#2#5#Valery Legasov"),
-                new Role("2#2#6#Boris Shcherbina"),
+                new Role("1#1#5#Valery Legasov"),
+                new Role("2#1#6#Boris Shcherbina"),
                 new Role("3#5#3#Michael Burnham"),
                 new Role("4#5#4#Cmdr. Saru"),
                 new Role("5#7#1#General Mark R. Naird"),

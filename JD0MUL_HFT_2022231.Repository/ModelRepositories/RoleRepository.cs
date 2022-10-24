@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JD0MUL_HFT_2022231.Repository
 {
-    internal class RoleRepository : Repository<Role>, IRepository<Role>
+    public class RoleRepository : Repository<Role>, IRepository<Role>
     {
         public RoleRepository(TvShowDbContext ctx) : base(ctx)
         {

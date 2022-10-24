@@ -8,7 +8,7 @@ using JD0MUL_HFT_2022231.Repository;
 
 namespace JD0MUL_HFT_2022231.Logic
 {
-    internal class ActorLogic
+    public class ActorLogic
     {
         IRepository<Actor> repository;
         public ActorLogic(IRepository<Actor> repository)
