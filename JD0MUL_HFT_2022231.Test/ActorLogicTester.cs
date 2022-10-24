@@ -17,6 +17,15 @@ namespace JD0MUL_HFT_2022231.Test
         [SetUp]
         public void Init()
         {
+            mockActorRepo = new Mock<IRepository<Actor>>();
+            mockActorRepo.Setup(s => s.ReadAll()).Returns(new List<Actor>()
+            {
+                new Actor("1#1#1#RoleA"),
+                new Actor("2#2#2#RoleB"),
+                new Actor("3#3#3#RoleC"),
+                new Actor("4#4#4#RoleD")
+            }.AsQueryable());
+            logic = new ActorLogic(mockActorRepo.Object);
         }
     }
 }

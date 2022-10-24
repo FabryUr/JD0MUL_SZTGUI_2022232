@@ -13,6 +13,7 @@ namespace JD0MUL_HFT_2022231.Test
     [TestFixture]
     public class TvShowLogicTester
     {
+        TvShowLogic logic;
         Mock<IRepository<TvShow>> mockTvShowRepo;
         Mock<IRepository<Studio>> mockStudioRepo;
         Mock<IRepository<Actor>> mockActorRepo;
