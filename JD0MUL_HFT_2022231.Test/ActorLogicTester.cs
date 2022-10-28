@@ -14,18 +14,42 @@ namespace JD0MUL_HFT_2022231.Test
     {
         ActorLogic logic;
         Mock<IRepository<Actor>> mockActorRepo;
+        IQueryable<Actor> Actors;
         [SetUp]
-        public void Init()
+        public void SetUp()
         {
             mockActorRepo = new Mock<IRepository<Actor>>();
-            mockActorRepo.Setup(s => s.ReadAll()).Returns(new List<Actor>()
+            Actors = new List<Actor>()
             {
-                new Actor("1#1#1#RoleA"),
-                new Actor("2#2#2#RoleB"),
-                new Actor("3#3#3#RoleC"),
-                new Actor("4#4#4#RoleD")
-            }.AsQueryable());
+                new Actor("1#ActorA"),
+                new Actor("2#ActorB"),
+                new Actor("3#ActorC"),
+                new Actor("4#ActorD")
+            }.AsQueryable();
+            mockActorRepo.Setup(s => s.ReadAll()).Returns(Actors);
             logic = new ActorLogic(mockActorRepo.Object);
+        }
+        [Test]
+        public void CreateActorWithCorrectNameTest()
+        {
+            var actor = new Actor() { ActorName="Jason Stathan" };
+            //ACT
+            logic.Create(actor);
+            //ASSERT
+            mockActorRepo.Verify(r => r.Create(actor), Times.Once);
+        }
+        [Test]
+        public void ReadActorExceptionTest()
+        {
+            //ASSERT
+            Assert.That(() => logic.Read(5), Throws.TypeOf<ArgumentException>());
+        }
+        [Test]
+        public void CreateActorExceptionTest()
+        {
+            var actor = new Actor() { ActorName = "Jolly" };
+            //ASSERT
+            Assert.That(()=>logic.Create(actor), Throws.TypeOf<ArgumentException>());
         }
     }
 }
