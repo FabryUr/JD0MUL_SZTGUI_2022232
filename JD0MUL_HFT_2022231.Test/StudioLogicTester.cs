@@ -16,10 +16,33 @@ namespace JD0MUL_HFT_2022231.Test
     {
         StudioLogic logic;
         Mock<IRepository<Studio>> mockStudioRepo;
+        IQueryable<Studio> Studios;
         [SetUp]
-        public void Init()
+        public void SetUp()
         {
-            
+            mockStudioRepo = new Mock<IRepository<Studio>>();
+            Studios = new List<Studio>()
+            {
+                new Studio("1#StudioA"),
+                new Studio("2#StudioB"),
+                new Studio("3#StudioC"),
+                new Studio("4#StudioD")
+            }.AsQueryable();
+            mockStudioRepo.Setup(s => s.ReadAll()).Returns(Studios);
+            logic = new StudioLogic(mockStudioRepo.Object);
+        }
+        [Test]
+        public void ReadStudioExceptionTest()
+        {
+            //ASSERT
+            Assert.That(() => logic.Read(5), Throws.TypeOf<ArgumentException>());
+        }
+        [Test]
+        public void CreateStudioExceptionTest()
+        {
+            var studio = new Studio() { StudioName = "CN" };
+            //ASSERT
+            Assert.That(() => logic.Create(studio), Throws.TypeOf<ArgumentException>());
         }
     }
 }
