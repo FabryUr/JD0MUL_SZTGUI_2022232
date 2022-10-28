@@ -17,7 +17,7 @@ namespace JD0MUL_HFT_2022231.Test
         RoleLogic logic;
         Mock<IRepository<Role>> mockRoleRepo;
         [SetUp]
-        public void Init()
+        public void SetUp()
         {
             mockRoleRepo = new Mock<IRepository<Role>>();
             mockRoleRepo.Setup(s => s.ReadAll()).Returns(new List<Role>()
@@ -28,6 +28,19 @@ namespace JD0MUL_HFT_2022231.Test
                 new Role("4#4#4#RoleD")
             }.AsQueryable());
             logic = new RoleLogic(mockRoleRepo.Object);
+        }
+        [Test]
+        public void ReadRoleExceptionTest()
+        {
+            //ASSERT
+            Assert.That(() => logic.Read(5), Throws.TypeOf<ArgumentException>());
+        }
+        [Test]
+        public void CreateRoleExceptionTest()
+        {
+            var role = new Role() {  RoleName= "dude1" };
+            //ASSERT
+            Assert.That(() => logic.Create(role), Throws.TypeOf<ArgumentException>());
         }
     }
 }
