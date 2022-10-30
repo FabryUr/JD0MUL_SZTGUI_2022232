@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JD0MUL_HFT_2022231.Models;
 using JD0MUL_HFT_2022231.Repository;
+using static JD0MUL_HFT_2022231.Logic.TvShowLogic;
 
 namespace JD0MUL_HFT_2022231.Logic
 {
@@ -49,6 +50,23 @@ namespace JD0MUL_HFT_2022231.Logic
         public void Update(Studio item)
         {
             this.repository.Update(item);
+        }
+        //non cruds
+
+        //Which studio did make most films
+        public IEnumerable<StudioInfo> LargestStudio()//problem
+        {
+            var maxTvShow = repository.ReadAll().Max(t => t.TvShows.Count);
+           return repository.ReadAll()
+                .Where(t => t.TvShows.Count == maxTvShow)
+                .Select(t => new StudioInfo { StudioId=t.StudioId, StudioName=t.StudioName, MovieNumber=maxTvShow, TvShowTitles=t.TvShows.Select(t=>t.Title) });
+        }
+        public class StudioInfo
+        {
+            public int StudioId { get; set; }
+            public string StudioName { get; set; }
+            public int MovieNumber { get; set; }
+            public IEnumerable<string> TvShowTitles { get; set; }
         }
     }
 }

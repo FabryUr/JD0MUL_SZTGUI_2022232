@@ -48,5 +48,24 @@ namespace JD0MUL_HFT_2022231.Logic
         {
             this.repository.Update(item);
         }
+        //non crud
+        public double ActorShowsAverage(int actorId)//problem, egyáltalán ez jó non-crud? xd
+        {
+            return repository.ReadAll()
+                .FirstOrDefault(t => t.ActorId == actorId).TvShows.Average(t=>t.Rating);
+        }
+        public IEnumerable<ActorInfo> ActorBestTvShowRating()
+        {
+             return this.repository.ReadAll()
+                .Select(t=>new ActorInfo { ActorName=t.ActorName, Rating=t.TvShows
+                    .Max(t=>t.Rating), Title=t.TvShows
+                        .Where(r=>r.Rating==t.TvShows.Max(z=>z.Rating)).Select(r=>r.Title)});
+        }
+        public class ActorInfo
+        {
+            public string ActorName { get; set; }
+            public IEnumerable<string> Title { get; set; }
+            public double Rating { get; set; }
+        }
     }
 }

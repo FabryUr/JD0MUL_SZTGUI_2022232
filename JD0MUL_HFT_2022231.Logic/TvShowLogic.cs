@@ -2,20 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using JD0MUL_HFT_2022231.Models;
 using JD0MUL_HFT_2022231.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace JD0MUL_HFT_2022231.Logic
 {
     public class TvShowLogic
     {
         IRepository<TvShow> repository;
-
         public TvShowLogic(IRepository<TvShow> repository)
         {
             this.repository = repository;
         }
-
+        #region CRUD
         public void Create(TvShow item)
         {
             if (item.Title.Length <3)//because the "YOU" TVshow is 3 letter long, shorter is not accepted
@@ -49,42 +50,26 @@ namespace JD0MUL_HFT_2022231.Logic
         {
             this.repository.Update(item);
         }
-
-        //non CRUDs
-        public IEnumerable<LengthInfo> ShowLength()
+        #endregion
+        //non CRUDs        
+        //Who are the worst show's actors
+        public IEnumerable<Actor> WorstShowActors()
         {
-            return from x in this.repository.ReadAll()
-                   group x by x.ReleaseYear - x.EndYear into g
-                   select new LengthInfo()
-                   {
-                       Seasons = g.Key+1,
-                       TvShowNumber=g.Count(),
-                       RoleNumber=g.Sum(t=>t.Roles.Count())
-                   };
+            var worstShowRating = this.repository.ReadAll().Min(t => t.Rating);
+            var worstShow = this.repository.ReadAll().FirstOrDefault(t => t.Rating == worstShowRating);
+            return this.repository.Read(worstShow.TvShowId).Actors.ToList();
         }
-        public class LengthInfo
+        public IEnumerable<Best> BestTvShowRoles()
         {
-            public int Seasons { get; set; }
-            public int TvShowNumber { get; set; }
-            public int RoleNumber { get; set; }
-
-            public override bool Equals(object obj)
-            {
-                LengthInfo b=obj as LengthInfo;
-                if (b == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    return this.Seasons == b.Seasons && this.TvShowNumber == b.TvShowNumber && this.RoleNumber == b.RoleNumber;
-                }
-            }
-
-            public override int GetHashCode()
-            {
-                return HashCode.Combine(this.Seasons, this.TvShowNumber, this.RoleNumber);
-            }
+            var maxrating = repository.ReadAll().Max(t => t.Rating);
+            return repository.ReadAll()
+                .Where(t => t.Rating == maxrating)
+                .Select(t=>new Best {Title=t.Title, Roles=t.Roles });
         }
+        public class Best
+        {
+            public string Title { get; set; }
+            public ICollection<Role> Roles { get; set; }
+        }  
     }
 }
