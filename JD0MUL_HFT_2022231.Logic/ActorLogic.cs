@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JD0MUL_HFT_2022231.Models;
 using JD0MUL_HFT_2022231.Repository;
+using static JD0MUL_HFT_2022231.Logic.TvShowLogic;
 
 namespace JD0MUL_HFT_2022231.Logic
 {
@@ -15,6 +16,7 @@ namespace JD0MUL_HFT_2022231.Logic
         {
             this.repository = repository;
         }
+        #region CRUD
         public void Create(Actor item)
         {
             if (item.ActorName.Length<6)
@@ -48,8 +50,9 @@ namespace JD0MUL_HFT_2022231.Logic
         {
             this.repository.Update(item);
         }
-        //non crud
-        public double ActorShowsAverage(int actorId)//problem, egyáltalán ez jó non-crud? xd
+#endregion
+        #region nonCRUDs
+        public double ActorShowsAverage(int actorId)
         {
             return repository.ReadAll()
                 .FirstOrDefault(t => t.ActorId == actorId).TvShows.Average(t=>t.Rating);
@@ -66,6 +69,18 @@ namespace JD0MUL_HFT_2022231.Logic
             public string ActorName { get; set; }
             public IEnumerable<string> Title { get; set; }
             public double Rating { get; set; }
+            public override bool Equals(object obj)
+            {
+                ActorInfo b = obj as ActorInfo;
+                if (b == null) return false;
+                else
+                    return this.ActorName == b.ActorName && this.Rating == b.Rating;
+            }
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(this.ActorName, this.Rating);
+            }
         }
+        #endregion
     }
 }
