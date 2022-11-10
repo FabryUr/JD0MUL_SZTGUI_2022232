@@ -15,6 +15,7 @@ namespace JD0MUL_HFT_2022231.Logic
         public TvShowLogic(IRepository<TvShow> repository)
         {
             this.repository = repository;
+
         }
         #region CRUD
         public void Create(TvShow item)
@@ -25,7 +26,6 @@ namespace JD0MUL_HFT_2022231.Logic
             }
             this.repository.Create(item);
         }
-
         public void Delete(int id)
         {
             this.repository.Delete(id);
@@ -40,18 +40,16 @@ namespace JD0MUL_HFT_2022231.Logic
             }
             return this.repository.Read(id);
         }
-
         public IQueryable<TvShow> ReadAll()
         {
-            return this.repository.ReadAll();
+           return this.repository.ReadAll();
         }
-
         public void Update(TvShow item)
         {
             this.repository.Update(item);
         }
         #endregion
-        //non CRUDs        
+        #region nonCRUDs      
         //Who are the worst show's actors
         public IEnumerable<Actor> WorstShowActors()
         {
@@ -70,6 +68,18 @@ namespace JD0MUL_HFT_2022231.Logic
         {
             public string Title { get; set; }
             public ICollection<Role> Roles { get; set; }
-        }  
+            public override bool Equals(object obj)
+            {
+                Best b = obj as Best;
+                if (b == null) return false;
+                else
+                    return this.Title == b.Title && this.Roles.Count == b.Roles.Count;
+            }
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(this.Title);
+            }
+        }
+        #endregion
     }
 }

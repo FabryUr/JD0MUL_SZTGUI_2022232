@@ -14,83 +14,107 @@ namespace JD0MUL_HFT_2022231.Test
     public class TvShowLogicTester
     {
         Mock<IRepository<TvShow>> mockTvShowRepo;
-        Mock<IRepository<Studio>> mockStudioRepo;
-        Mock<IRepository<Actor>> mockActorRepo;
-        Mock<IRepository<Role>> mockRoleRepo;
 
         TvShowLogic TvShowLogic;
-        StudioLogic StudioLogic;
-        ActorLogic ActorLogic;
-        RoleLogic RoleLogic;
 
         IQueryable<TvShow> TvShows;
-        IQueryable<Studio> Studios;
-        IQueryable<Actor> Actors;
-        IQueryable<Role> Roles;
 
         [SetUp]
         public void SetUp()
         {
             TvShows = new List<TvShow>()
             {
-                new TvShow("1#TvShowA#2#2004#2008#9,4"),
-                new TvShow("2#TvShowB#1#2019#2020#6,5"),
-                new TvShow("3#TvShowC#3#2006#2010#8"),
+                new TvShow("1#TvShowA#2#2004#2008#9,4")
+                {
+                    Actors = new List<Actor>()
+                    {
+                        new Actor("1#ActorA")
+                    },
+                    Roles = new List<Role>()
+                    {
+                        new Role("1#1#1#RoleA")
+                    },
+                    Studio=new Studio("2#StudioB")
+                },
+                new TvShow("2#TvShowB#1#2019#2020#6,5")
+                {
+                    Actors = new List<Actor>()
+                    {
+                        new Actor("2#ActorB")
+                    },
+                    Roles = new List<Role>()
+                    {
+                        new Role("2#2#2#RoleB")
+                    },
+                    Studio=new Studio("1#StudioA")
+                },
+                new TvShow("3#TvShowC#3#2006#2010#8")
+                {
+                    Actors = new List<Actor>()
+                    {
+                        new Actor("3#ActorC"),
+                        new Actor("4#ActorD")
+                    },
+                    Roles = new List<Role>()
+                    {
+                        new Role("3#3#3#RoleC"),
+                        new Role("4#3#4#RoleD")
+                    },
+                    Studio=new Studio("3#StudioC")
+                },
                 new TvShow("4#TvShowD#1#2007#2010#10")
-            }.AsQueryable();
-            Studios = new List<Studio>()
-            {
-                new Studio("1#StudioA"),
-                new Studio("2#StudioB"),
-                new Studio("3#StudioC"),
-                new Studio("4#StudioD")
-            }.AsQueryable();
-            Actors = new List<Actor>()
-            {
-                new Actor("1#ActorA"),
-                new Actor("2#ActorB"),
-                new Actor("3#ActorC"),
-                new Actor("4#ActorD")
-            }.AsQueryable();
-            Roles = new List<Role>()
-            {
-                new Role("1#1#1#RoleA"),
-                new Role("2#2#2#RoleB"),
-                new Role("3#3#3#RoleC"),
-                new Role("4#3#4#RoleD")
+                {
+                    Actors = new List<Actor>()
+                    {
+                        new Actor("1#ActorA")
+                    },
+                    Roles = new List<Role>()
+                    {
+                        new Role("5#4#1#RoleE")
+                    },
+                    Studio=new Studio("1#StudioA")
+                }
             }.AsQueryable();
 
             mockTvShowRepo = new();
-            mockStudioRepo = new();
-            mockActorRepo = new();
-            mockRoleRepo = new();
 
             mockTvShowRepo.Setup(m => m.ReadAll()).Returns(TvShows);
-            mockStudioRepo.Setup(m => m.ReadAll()).Returns(Studios);
-            mockActorRepo.Setup(m => m.ReadAll()).Returns(Actors);
-            mockRoleRepo.Setup(m => m.ReadAll()).Returns(Roles);
+
+            mockTvShowRepo.Setup(m => m.Read(It.IsAny<int>())).Returns((int id)=>TvShows.Where(t=>t.TvShowId==id).FirstOrDefault());
 
             TvShowLogic = new TvShowLogic(mockTvShowRepo.Object);
-            StudioLogic = new StudioLogic(mockStudioRepo.Object);
-            ActorLogic = new ActorLogic(mockActorRepo.Object);
-            RoleLogic = new RoleLogic(mockRoleRepo.Object);
-        }        
+        }
+        [Test]
+        public void WorstShowActorsTest()
+        {
+            //Act
+            var actual = TvShowLogic.WorstShowActors();
+            var expected = new List<Actor> { new Actor("2#ActorB") };
+            //ASSERT
+            Assert.AreEqual(expected,actual);
+        }
+        [Test]
+        public void BestTvShowRolesTest()
+        {
+            //Act
+            var actual =TvShowLogic.BestTvShowRoles();
+            var expected =new List<Best>()
+            {
+                new Best()
+                {
+                    Title="TvShowD",
+                    Roles=new List<Role>()
+                    {
+                        new Role("5#4#1#RoleE")
+                    }
+                }
+            };
+            //ASSERT
+            Assert.AreEqual(expected, actual);
+        }
         [Test]
         public void ReadTvShowExceptionTest()
         {
-            ////Arrange
-            //TvShow expected = new TvShow
-            //{
-            //    TvShowId = 1,
-            //    Title = "TvShowA"
-            //};
-            //mockTvShowRepo
-            //    .Setup(r => r.Read(1))
-            //    .Returns(expected);
-            ////Act
-            //var actual = TvShowLogic.Read(1);
-            ////ASSERT
-            //Assert.That(actual, Is.EqualTo(expected))
             //ASSERT
             Assert.That(() => TvShowLogic.Read(5), Throws.TypeOf<ArgumentException>());
         }

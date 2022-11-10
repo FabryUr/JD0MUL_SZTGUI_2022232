@@ -9,7 +9,7 @@ namespace JD0MUL_HFT_2022231.Models
     public class TvShow
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TvShowId { get; set; }
 
         [StringLength(180)]
