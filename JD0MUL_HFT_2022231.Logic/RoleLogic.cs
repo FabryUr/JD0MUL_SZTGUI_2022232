@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JD0MUL_HFT_2022231.Logic.Interfaces;
 using JD0MUL_HFT_2022231.Models;
 using JD0MUL_HFT_2022231.Repository;
 
 namespace JD0MUL_HFT_2022231.Logic
 {
-    public class RoleLogic
+    public class RoleLogic : IRoleLogic
     {
         IRepository<Role> repository;
 
@@ -19,7 +20,7 @@ namespace JD0MUL_HFT_2022231.Logic
 
         public void Create(Role item)
         {
-            if (item.RoleName.Length <6 )
+            if (item.RoleName.Length < 6)
             {
                 throw new ArgumentException("Role name is too short!");
             }

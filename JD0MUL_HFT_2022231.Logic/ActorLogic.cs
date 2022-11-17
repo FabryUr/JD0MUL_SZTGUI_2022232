@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JD0MUL_HFT_2022231.Logic.Interfaces;
 using JD0MUL_HFT_2022231.Models;
 using JD0MUL_HFT_2022231.Repository;
 using static JD0MUL_HFT_2022231.Logic.TvShowLogic;
 
 namespace JD0MUL_HFT_2022231.Logic
 {
-    public class ActorLogic
+    public class ActorLogic : IActorLogic
     {
         IRepository<Actor> repository;
         public ActorLogic(IRepository<Actor> repository)
@@ -19,7 +20,7 @@ namespace JD0MUL_HFT_2022231.Logic
         #region CRUD
         public void Create(Actor item)
         {
-            if (item.ActorName.Length<6)
+            if (item.ActorName.Length < 6)
             {
                 throw new ArgumentException("Actor name too short!");
             }
@@ -33,7 +34,7 @@ namespace JD0MUL_HFT_2022231.Logic
 
         public Actor Read(int id)
         {
-            var actor=this.repository.Read(id);
+            var actor = this.repository.Read(id);
             if (actor == null)
             {
                 throw new ArgumentException("Actor does not exist");
@@ -50,19 +51,24 @@ namespace JD0MUL_HFT_2022231.Logic
         {
             this.repository.Update(item);
         }
-#endregion
+        #endregion
         #region nonCRUDs
         public double ActorShowsAverage(int actorId)
         {
             return repository.ReadAll()
-                .FirstOrDefault(t => t.ActorId == actorId).TvShows.Average(t=>t.Rating);
+                .FirstOrDefault(t => t.ActorId == actorId).TvShows.Average(t => t.Rating);
         }
         public IEnumerable<ActorInfo> ActorBestTvShowRating()
         {
-             return this.repository.ReadAll()
-                .Select(t=>new ActorInfo { ActorName=t.ActorName, Rating=t.TvShows
-                    .Max(t=>t.Rating), Title=t.TvShows
-                        .Where(r=>r.Rating==t.TvShows.Max(z=>z.Rating)).Select(r=>r.Title)});
+            return this.repository.ReadAll()
+               .Select(t => new ActorInfo
+               {
+                   ActorName = t.ActorName,
+                   Rating = t.TvShows
+                   .Max(t => t.Rating),
+                   Title = t.TvShows
+                       .Where(r => r.Rating == t.TvShows.Max(z => z.Rating)).Select(r => r.Title)
+               });
         }
         public class ActorInfo
         {

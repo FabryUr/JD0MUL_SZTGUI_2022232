@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using JD0MUL_HFT_2022231.Logic.Interfaces;
 using JD0MUL_HFT_2022231.Models;
 using JD0MUL_HFT_2022231.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace JD0MUL_HFT_2022231.Logic
 {
-    public class TvShowLogic
+    public class TvShowLogic : ITvShowLogic
     {
         IRepository<TvShow> repository;
         public TvShowLogic(IRepository<TvShow> repository)
@@ -20,7 +21,7 @@ namespace JD0MUL_HFT_2022231.Logic
         #region CRUD
         public void Create(TvShow item)
         {
-            if (item.Title.Length <3)//because the "YOU" TVshow is 3 letter long, shorter is not accepted
+            if (item.Title.Length < 3)//because the "YOU" TVshow is 3 letter long, shorter is not accepted
             {
                 throw new ArgumentException("Title is too short!");
             }
@@ -42,7 +43,7 @@ namespace JD0MUL_HFT_2022231.Logic
         }
         public IQueryable<TvShow> ReadAll()
         {
-           return this.repository.ReadAll();
+            return this.repository.ReadAll();
         }
         public void Update(TvShow item)
         {
@@ -62,7 +63,7 @@ namespace JD0MUL_HFT_2022231.Logic
             var maxrating = repository.ReadAll().Max(t => t.Rating);
             return repository.ReadAll()
                 .Where(t => t.Rating == maxrating)
-                .Select(t=>new Best {Title=t.Title, Roles=t.Roles });
+                .Select(t => new Best { Title = t.Title, Roles = t.Roles });
         }
         public class Best
         {

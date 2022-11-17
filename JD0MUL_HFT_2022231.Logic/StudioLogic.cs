@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JD0MUL_HFT_2022231.Logic.Interfaces;
 using JD0MUL_HFT_2022231.Models;
 using JD0MUL_HFT_2022231.Repository;
 using static JD0MUL_HFT_2022231.Logic.TvShowLogic;
 
 namespace JD0MUL_HFT_2022231.Logic
 {
-    public class StudioLogic
+    public class StudioLogic : IStudioLogic
     {
         IRepository<Studio> repository;
 
@@ -53,9 +54,9 @@ namespace JD0MUL_HFT_2022231.Logic
         public IEnumerable<StudioInfo> LargestStudio()
         {
             var maxTvShow = repository.ReadAll().Max(t => t.TvShows.Count);
-           return repository.ReadAll()
-                .Where(t => t.TvShows.Count == maxTvShow)
-                .Select(t => new StudioInfo { StudioId=t.StudioId, StudioName=t.StudioName, ShowNumber=maxTvShow, TvShowTitles=t.TvShows.Select(t=>t.Title) });
+            return repository.ReadAll()
+                 .Where(t => t.TvShows.Count == maxTvShow)
+                 .Select(t => new StudioInfo { StudioId = t.StudioId, StudioName = t.StudioName, ShowNumber = maxTvShow, TvShowTitles = t.TvShows.Select(t => t.Title) });
         }
         public class StudioInfo
         {
@@ -68,7 +69,7 @@ namespace JD0MUL_HFT_2022231.Logic
                 StudioInfo b = obj as StudioInfo;
                 if (b == null) return false;
                 else
-                    return this.StudioName == b.StudioName && this.StudioId == b.StudioId && this.ShowNumber== b.ShowNumber;
+                    return this.StudioName == b.StudioName && this.StudioId == b.StudioId && this.ShowNumber == b.ShowNumber;
             }
             public override int GetHashCode()
             {
