@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Text.Json.Serialization;
 
 namespace JD0MUL_HFT_2022231.Models
 {
     public class TvShow
     {
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TvShowId { get; set; }
 
         [StringLength(180)]
@@ -24,9 +25,8 @@ namespace JD0MUL_HFT_2022231.Models
         public int StudioId { get; set; }
 
         public virtual Studio Studio { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Actor> Actors { get; set; }
-
         public virtual ICollection<Role> Roles { get; set; }
 
 

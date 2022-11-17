@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace JD0MUL_HFT_2022231.Models
 {
@@ -17,7 +18,7 @@ namespace JD0MUL_HFT_2022231.Models
         [Required]
         [StringLength(240)]
         public string StudioName { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<TvShow> TvShows { get; set; }
 
         public Studio()
