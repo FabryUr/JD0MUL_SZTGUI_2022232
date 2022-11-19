@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using JD0MUL_HFT_2022231.Logic.Interfaces;
 using JD0MUL_HFT_2022231.Models;
+using JD0MUL_HFT_2022231.Models.SideClasses;
 using JD0MUL_HFT_2022231.Repository;
-using static JD0MUL_HFT_2022231.Logic.TvShowLogic;
 
 namespace JD0MUL_HFT_2022231.Logic
 {
@@ -53,39 +53,40 @@ namespace JD0MUL_HFT_2022231.Logic
         }
         #endregion
         #region nonCRUDs
-        public double ActorShowsAverage(int actorId)
+        public ActorRateInfo ActorShowsAverage(int actorId)
         {
-            return repository.ReadAll()
-                .FirstOrDefault(t => t.ActorId == actorId).TvShows.Average(t => t.Rating);
+            var temp = repository.ReadAll().FirstOrDefault(t => t.ActorId == actorId);
+            if (temp!=null)
+            {
+                return new ActorRateInfo { ActorName = repository.Read(actorId).ActorName, avgRating = temp.TvShows.Average(t => t.Rating) };
+            }
+            throw new ArgumentNullException("Id does not exist!");
         }
         public IEnumerable<ActorInfo> ActorBestTvShowRating()
         {
-            return this.repository.ReadAll()
-               .Select(t => new ActorInfo
-               {
-                   ActorName = t.ActorName,
-                   Rating = t.TvShows
-                   .Max(t => t.Rating),
-                   Title = t.TvShows
-                       .Where(r => r.Rating == t.TvShows.Max(z => z.Rating)).Select(r => r.Title)
-               });
+            var infos= new List<ActorInfo>();
+            List<ActorInfoHelper> helper = repository.ReadAll().Select(t => new ActorInfoHelper
+            {
+                Actor = t,
+                Titles = t.TvShows,
+                Rating = t.TvShows.Select(t=>t.Rating)
+            }).ToList();
+            foreach (ActorInfoHelper info in helper)
+            {
+                infos.Add(new ActorInfo
+                {
+                    ActorName = info.Actor.ActorName,
+                    Rating = info.Rating.Max(),
+                    Titles = info.Titles.Where(t => t.Rating == info.Rating.Max()).Select(t => t.Title)//i dont understand why is it working with this solution, and no with another one, but working so i am glad with it
+                });
+            }
+            return infos;
         }
-        public class ActorInfo
+        public class ActorInfoHelper
         {
-            public string ActorName { get; set; }
-            public IEnumerable<string> Title { get; set; }
-            public double Rating { get; set; }
-            public override bool Equals(object obj)
-            {
-                ActorInfo b = obj as ActorInfo;
-                if (b == null) return false;
-                else
-                    return this.ActorName == b.ActorName && this.Rating == b.Rating;
-            }
-            public override int GetHashCode()
-            {
-                return HashCode.Combine(this.ActorName, this.Rating);
-            }
+            public Actor Actor { get; set; }
+            public IEnumerable<TvShow> Titles { get; set; }
+            public IEnumerable<double> Rating { get; set; }
         }
         #endregion
     }

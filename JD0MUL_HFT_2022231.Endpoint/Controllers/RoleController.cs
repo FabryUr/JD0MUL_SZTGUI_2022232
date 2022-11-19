@@ -1,4 +1,4 @@
-﻿using using JD0MUL_HFT_2022231.Logic.Interfaces;
+﻿using JD0MUL_HFT_2022231.Logic.Interfaces;
 using JD0MUL_HFT_2022231.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace JD0MUL_HFT_2022231.Endpoint.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
     {

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JD0MUL_HFT_2022231.Logic.Interfaces;
 using JD0MUL_HFT_2022231.Models;
+using JD0MUL_HFT_2022231.Models.SideClasses;
 using JD0MUL_HFT_2022231.Repository;
 using static JD0MUL_HFT_2022231.Logic.TvShowLogic;
 
@@ -58,24 +59,7 @@ namespace JD0MUL_HFT_2022231.Logic
                  .Where(t => t.TvShows.Count == maxTvShow)
                  .Select(t => new StudioInfo { StudioId = t.StudioId, StudioName = t.StudioName, ShowNumber = maxTvShow, TvShowTitles = t.TvShows.Select(t => t.Title) });
         }
-        public class StudioInfo
-        {
-            public int StudioId { get; set; }
-            public string StudioName { get; set; }
-            public int ShowNumber { get; set; }
-            public IEnumerable<string> TvShowTitles { get; set; }
-            public override bool Equals(object obj)
-            {
-                StudioInfo b = obj as StudioInfo;
-                if (b == null) return false;
-                else
-                    return this.StudioName == b.StudioName && this.StudioId == b.StudioId && this.ShowNumber == b.ShowNumber;
-            }
-            public override int GetHashCode()
-            {
-                return HashCode.Combine(this.StudioName, this.StudioId, this.ShowNumber);
-            }
-        }
+        
         #endregion
     }
 }

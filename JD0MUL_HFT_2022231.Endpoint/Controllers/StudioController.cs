@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace JD0MUL_HFT_2022231.Endpoint.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class StudioController : ControllerBase
     {
@@ -51,6 +51,7 @@ namespace JD0MUL_HFT_2022231.Endpoint.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            this.logic.Delete(id);
         }
     }
 }

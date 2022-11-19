@@ -17,7 +17,7 @@ namespace JD0MUL_HFT_2022231.Logic
         {
             this.repository = repository;
         }
-
+        #region CRUD
         public void Create(Role item)
         {
             if (item.RoleName.Length < 6)
@@ -51,5 +51,6 @@ namespace JD0MUL_HFT_2022231.Logic
         {
             this.repository.Update(item);
         }
+        #endregion
     }
 }

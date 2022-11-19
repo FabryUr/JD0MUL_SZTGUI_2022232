@@ -1,5 +1,6 @@
 ﻿using JD0MUL_HFT_2022231.Logic;
 using JD0MUL_HFT_2022231.Models;
+using JD0MUL_HFT_2022231.Models.SideClasses;
 using JD0MUL_HFT_2022231.Repository;
 using Moq;
 using NUnit.Framework;

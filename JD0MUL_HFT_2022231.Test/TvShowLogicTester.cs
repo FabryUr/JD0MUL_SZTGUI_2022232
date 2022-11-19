@@ -1,5 +1,6 @@
 ﻿using JD0MUL_HFT_2022231.Logic;
 using JD0MUL_HFT_2022231.Models;
+using JD0MUL_HFT_2022231.Models.SideClasses;
 using JD0MUL_HFT_2022231.Repository;
 using Moq;
 using NUnit.Framework;
@@ -89,7 +90,7 @@ namespace JD0MUL_HFT_2022231.Test
         {
             //Act
             var actual = TvShowLogic.WorstShowActors();
-            var expected = new List<Actor> { new Actor("2#ActorB") };
+            var expected = new List<Worst>() { new Worst(){  Title= "TvShowB", Actors=new List<Actor> { new Actor("2#ActorB") } } };
             //ASSERT
             Assert.AreEqual(expected,actual);
         }

@@ -1,5 +1,6 @@
 ﻿using JD0MUL_HFT_2022231.Logic;
 using JD0MUL_HFT_2022231.Models;
+using JD0MUL_HFT_2022231.Models.SideClasses;
 using JD0MUL_HFT_2022231.Repository;
 using Moq;
 using NUnit.Framework;
@@ -38,6 +39,7 @@ namespace JD0MUL_HFT_2022231.Test
                 }
             }.AsQueryable();
             mockActorRepo.Setup(s => s.ReadAll()).Returns(Actors);
+            mockActorRepo.Setup(m => m.Read(It.IsAny<int>())).Returns((int id) => Actors.Where(t => t.ActorId == id).FirstOrDefault());
             ActorLogic = new ActorLogic(mockActorRepo.Object);
         }
         #region CRUD Tests
@@ -68,7 +70,7 @@ namespace JD0MUL_HFT_2022231.Test
         [Test]
         public void ActorShowsAverageTest()
         {
-            var expected =8.5;
+            var expected =new ActorRateInfo() { ActorName="ActorA", avgRating=8.5};
             var actual = ActorLogic.ActorShowsAverage(1);
             //ASSERT
             Assert.AreEqual(expected, actual);
@@ -81,14 +83,14 @@ namespace JD0MUL_HFT_2022231.Test
                 new ActorInfo()
                 {
                     ActorName="ActorA",
-                    Rating=9,
-                    Title=new List<string>(){ "TvShowA" }
+                    Rating=9,                    
+                    Titles=new List<string>(){ "TvShowA" }
                 },
                 new ActorInfo()
                 {
                     ActorName="ActorB",
                     Rating=10,
-                    Title=new List<string>(){ "TvShowE" }
+                    Titles=new List<string>(){ "TvShowE" }
                 }
             };
             var actual = ActorLogic.ActorBestTvShowRating();

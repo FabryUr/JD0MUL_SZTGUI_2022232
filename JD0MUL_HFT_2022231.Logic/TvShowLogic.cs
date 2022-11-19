@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using JD0MUL_HFT_2022231.Logic.Interfaces;
 using JD0MUL_HFT_2022231.Models;
+using JD0MUL_HFT_2022231.Models.SideClasses;
 using JD0MUL_HFT_2022231.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,35 +53,20 @@ namespace JD0MUL_HFT_2022231.Logic
         #endregion
         #region nonCRUDs      
         //Who are the worst show's actors
-        public IEnumerable<Actor> WorstShowActors()
+        public IEnumerable<Worst> WorstShowActors()
         {
             var worstShowRating = this.repository.ReadAll().Min(t => t.Rating);
-            var worstShow = this.repository.ReadAll().FirstOrDefault(t => t.Rating == worstShowRating);
-            return this.repository.Read(worstShow.TvShowId).Actors.ToList();
-        }
+            return repository.ReadAll()
+                .Where(t=>t.Rating== worstShowRating)
+                .Select(t=>new Worst { Title= t.Title, Actors= t.Actors });
+        }        
         public IEnumerable<Best> BestTvShowRoles()
         {
             var maxrating = repository.ReadAll().Max(t => t.Rating);
             return repository.ReadAll()
                 .Where(t => t.Rating == maxrating)
                 .Select(t => new Best { Title = t.Title, Roles = t.Roles });
-        }
-        public class Best
-        {
-            public string Title { get; set; }
-            public ICollection<Role> Roles { get; set; }
-            public override bool Equals(object obj)
-            {
-                Best b = obj as Best;
-                if (b == null) return false;
-                else
-                    return this.Title == b.Title && this.Roles.Count == b.Roles.Count;
-            }
-            public override int GetHashCode()
-            {
-                return HashCode.Combine(this.Title);
-            }
-        }
+        }        
         #endregion
     }
 }
