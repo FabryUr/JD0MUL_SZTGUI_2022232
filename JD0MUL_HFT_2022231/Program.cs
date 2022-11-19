@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using ConsoleTools;
 using JD0MUL_HFT_2022231.Client;
 using JD0MUL_HFT_2022231.Models;
+using JD0MUL_HFT_2022231.Models.SideClasses;
 
 namespace JD0MUL_HFT_2022231
 {
@@ -12,150 +14,291 @@ namespace JD0MUL_HFT_2022231
         static RestService rest;
         static void Create(string entity)
         {
-            Console.Clear();
-            Console.WriteLine("Create option selected");
-            if (entity == "TvShow")
+            try
             {
-                Console.Write("Enter TvShow Name: ");
-                string name = Console.ReadLine();
-                rest.Post(new TvShow { Title = name }, "tvshow");
+                Console.Clear();
+                Console.WriteLine("Create option selected");
+                if (entity == "TvShow")
+                {
+                    Console.Write("Enter TvShow Name: ");
+                    string name = Console.ReadLine();
+                    rest.Post(new TvShow { Title = name }, "tvshow");
+                }
+                else if (entity == "Actor")
+                {
+                    Console.Write("Enter TvShow Name: ");
+                    string name = Console.ReadLine();
+                    rest.Post(new Actor { ActorName = name }, "actor");
+                }
+                else if (entity == "Role")
+                {
+                    Console.Write("Enter TvShow Name: ");
+                    string name = Console.ReadLine();
+                    rest.Post(new Role { RoleName = name }, "role");
+                }
+                else
+                {
+                    Console.Write("Enter TvShow Name: ");
+                    string name = Console.ReadLine();
+                    rest.Post(new Studio { StudioName = name }, "studio");
+                }
             }
-            else if (entity == "Actor")
+            catch (ArgumentException e)
             {
-                Console.Write("Enter TvShow Name: ");
-                string name = Console.ReadLine();
-                rest.Post(new Actor { ActorName = name }, "actor");
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Hit enter to return to menu!");
+                Console.ReadLine();
             }
-            else if (entity == "Role")
-            {
-                Console.Write("Enter TvShow Name: ");
-                string name = Console.ReadLine();
-                rest.Post(new Role { RoleName = name }, "role");
-            }
-            else
-            {
-                Console.Write("Enter TvShow Name: ");
-                string name = Console.ReadLine();
-                rest.Post(new Studio { StudioName = name }, "studio");
-            }
+            
         }
         static void List(string entity)
         {
-            Console.Clear();
-            Console.WriteLine("List option selected");
-            if (entity== "TvShow")
+            try
             {
-                List<TvShow> tvshows = rest.Get<TvShow>("tvshow");
-                Console.WriteLine("Id" + "\t" + "Title");
-                foreach (var item in tvshows)
+                Console.Clear();
+                Console.WriteLine("List option selected");
+                if (entity == "TvShow")
                 {
-                    Console.WriteLine(item.TvShowId + "\t" + item.Title);
+                    List<TvShow> tvshows = rest.Get<TvShow>("tvshow");
+                    Console.WriteLine("Id" + "\t" + "Title");
+                    foreach (var item in tvshows)
+                    {
+                        Console.WriteLine(item.TvShowId + "\t" + item.Title);
+                    }
+                }
+                else if (entity == "Actor")
+                {
+                    List<Actor> actors = rest.Get<Actor>("actor");
+                    Console.WriteLine("Id" + "\t" + "Name");
+                    foreach (var item in actors)
+                    {
+                        Console.WriteLine(item.ActorId + "\t" + item.ActorName);
+                    }
+                }
+                else if (entity == "Role")
+                {
+                    List<Role> roles = rest.Get<Role>("role");
+                    Console.WriteLine("Id" + "\t" + "Name");
+                    foreach (var item in roles)
+                    {
+                        Console.WriteLine(item.RoleId + "\t" + item.RoleName);
+                    }
+                }
+                else
+                {
+                    List<Studio> studios = rest.Get<Studio>("studio");
+                    Console.WriteLine("Id" + "\t" + "Name");
+                    foreach (var item in studios)
+                    {
+                        Console.WriteLine(item.StudioId + "\t" + item.StudioName);
+                    }
                 }
             }
-            else if (entity == "Actor")
+            catch (ArgumentException e)
             {
-                List<Actor> actors = rest.Get<Actor>("actor");
-                Console.WriteLine("Id" + "\t" + "Name");
-                foreach (var item in actors)
-                {
-                    Console.WriteLine(item.ActorId + "\t" + item.ActorName);
-                }
+                Console.WriteLine(e.Message);
             }
-            else if (entity == "Role")
-            {
-                List<Role> roles = rest.Get<Role>("role");
-                Console.WriteLine("Id" + "\t" + "Name");
-                foreach (var item in roles)
-                {
-                    Console.WriteLine(item.RoleId + "\t" + item.RoleName);
-                }
-            }
-            else
-            {
-                List<Studio> studios = rest.Get<Studio>("studio");
-                Console.WriteLine("Id" + "\t" + "Name");
-                foreach (var item in studios)
-                {
-                    Console.WriteLine(item.StudioId + "\t" + item.StudioName);
-                }
-            }
+            
             Console.WriteLine();
             Console.WriteLine("Hit enter to return to menu!");
             Console.ReadLine();
         }
         static void Update(string entity)
         {
-            Console.Clear();
-            Console.WriteLine("Update option selected");
-            if (entity == "TvShow")
+            try
             {
-                var tvshow = new TvShow();
-                Console.Write("Enter TvShow Id: ");
-                tvshow.TvShowId = int.Parse(Console.ReadLine());
-                Console.Write("Enter TvShow title: ");
-                tvshow.Title = Console.ReadLine();
-                rest.Put(tvshow, "tvshow");                
+                Console.Clear();
+                Console.WriteLine("Update option selected");
+                if (entity == "TvShow")
+                {
+                    Console.Write("Enter tv show's Id to update: ");
+                    var id = int.Parse(Console.ReadLine());
+                    var tvshow = rest.Get<TvShow>(id, "tvshow");
+                    Console.WriteLine($"[old name: {tvshow.Title}]");
+                    Console.Write("Enter the new tv show title: ");
+                    tvshow.Title = Console.ReadLine();
+                    rest.Put(tvshow, "tvshow");
+                }
+                else if (entity == "Actor")
+                {
+                    Console.Write("Enter actor's Id to update: ");
+                    var id = int.Parse(Console.ReadLine());
+                    var actor = rest.Get<Actor>(id, "actor");
+                    Console.WriteLine($"[old name: {actor.ActorName}]");
+                    Console.Write("Enter the new actor name: ");
+                    actor.ActorName = Console.ReadLine();
+                    rest.Put(actor, "actor");
+                }
+                else if (entity == "Role")
+                {
+                    Console.Write("Enter role's Id to update: ");
+                    var id = int.Parse(Console.ReadLine());
+                    var role = rest.Get<Role>(id, "role");
+                    Console.WriteLine($"[old name: {role.RoleName}]");
+                    Console.Write("Enter the new role name: ");
+                    role.RoleName = Console.ReadLine();
+                    rest.Put(role, "role");
+                }
+                else
+                {
+                    Console.Write("Enter studio's Id to update: ");
+                    var id = int.Parse(Console.ReadLine());
+                    var studio = rest.Get<Studio>(id, "studio");
+                    Console.WriteLine($"[old name: {studio.StudioName}]");
+                    Console.Write("Enter the new studio name: ");
+                    studio.StudioName = Console.ReadLine();
+                    rest.Put(studio, "studio");
+                }
             }
-            else if (entity == "Actor")
+            catch(ArgumentException e)
             {
-                var actor = new Actor();
-                Console.Write("Enter Actor Id: ");
-                actor.ActorId = int.Parse(Console.ReadLine());
-                Console.Write("Enter Actor name: ");
-                actor.ActorName = Console.ReadLine();
-                rest.Put(actor, "actor");
-            }
-            else if (entity == "Role")
-            {
-                var role = new Role();
-                Console.Write("Enter Role Id: ");
-                role.RoleId = int.Parse(Console.ReadLine());
-                Console.Write("Enter Role name: ");
-                role.RoleName = Console.ReadLine();
-                rest.Put(role, "role");
-            }
-            else
-            {
-                var studio = new Studio();
-                Console.Write("Enter Studio Id: ");
-                studio.StudioId = int.Parse(Console.ReadLine());
-                Console.Write("Enter Studio name: ");
-                studio.StudioName = Console.ReadLine();
-                rest.Put(studio, "studio");
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Hit enter to return to menu!");
+                Console.ReadLine();
             }
         }
         static void Delete(string entity)
         {
-            Console.Clear();
-            Console.WriteLine("Delete option selected");
-            if (entity == "TvShow")
+            try
             {
-                Console.Write("Enter TvShow Id: ");
-                var id = int.Parse(Console.ReadLine());                
-                rest.Delete(id, "tvshow");
+                Console.Clear();
+                Console.WriteLine("Delete option selected");
+                if (entity == "TvShow")
+                {
+                    Console.Write("Enter TvShow's Id to delete: ");
+                    var id = int.Parse(Console.ReadLine());
+                    rest.Delete(id, "tvshow");
+                }
+                else if (entity == "Actor")
+                {
+                    Console.Write("Enter Actor's Id to delete: ");
+                    var id = int.Parse(Console.ReadLine());
+                    rest.Delete(id, "actor");
+                }
+                else if (entity == "Role")
+                {
+                    Console.Write("Enter Role's Id to delete: ");
+                    var id = int.Parse(Console.ReadLine());
+                    rest.Delete(id, "role");
+                }
+                else
+                {
+                    Console.Write("Enter Studio's Id to delete: ");
+                    var id = int.Parse(Console.ReadLine());
+                    rest.Delete(id, "studio");
+                }
             }
-            else if (entity == "Actor")
+            catch (ArgumentException e)
             {
-                Console.Write("Enter Actor Id: ");
+                Console.WriteLine(e.Message);
+            }
+            Console.WriteLine("Hit enter to return to menu!");
+            Console.ReadLine();
+        }
+        static void BestShowRoles()
+        {
+            try
+            {
+                List<Best> result = rest.Get<Best>("stat/besttvshowroles");
+                Console.WriteLine("Best tv show's roles:");
+                foreach (var best in result)
+                {
+                    Console.Write($"{best.Title} show's roles: ");
+                    foreach (var item in best.Roles)
+                    {
+                        Console.Write(item.RoleName + "," + "\t");
+                    }
+                    Console.WriteLine();
+                }
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            Console.WriteLine("Hit enter to return to menu!");
+            Console.ReadLine();
+        }
+        static void WorstShowActors()
+        {
+            List<Worst> result = rest.Get<Worst>("stat/worstshowactors");
+            Console.WriteLine("Worst tv show's actors:");
+            foreach (var worst in result)
+            {
+                Console.Write($"{worst.Title} show's roles:");
+                foreach (var item in worst.Actors)
+                {
+                    Console.Write(item.ActorName + "," + "\t");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("Hit enter to return to menu!");
+            Console.ReadLine();
+        }
+        static void ActorBestTvShowRating()
+        {
+            try
+            {
+                List<ActorInfo> result = rest.Get<ActorInfo>("stat/actorbesttvshowrating");
+                foreach (var item in result)
+                {
+                    Console.Write($"{item.ActorName}'s film(s): ({item.Rating})");
+                    foreach (var title in item.Titles)
+                    {
+                        Console.Write(title + "," + "\t");
+                    }
+                    Console.WriteLine();
+                }
+            }
+            catch(ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            Console.WriteLine("Hit enter to return to menu!");
+            Console.ReadLine();
+        }
+        static void ActorShowsAverage()
+        {
+            try
+            {
+                Console.Write("Enter actor id to show average show rating: ");
                 var id = int.Parse(Console.ReadLine());
-                rest.Delete(id, "actor");
+                var result = rest.Get<ActorRateInfo>(id, "stat/actorshowsaverage");
+                Console.WriteLine($"{result.ActorName} has {result.avgRating} average show rating");
             }
-            else if (entity == "Role")
+            catch (ArgumentException e)
             {
-                Console.Write("Enter Role Id: ");
-                var id = int.Parse(Console.ReadLine());
-                rest.Delete(id, "role");
-            }
-            else
+                Console.WriteLine(e.Message);
+                
+            }           
+            Console.WriteLine("Hit enter to return to menu!");
+            Console.ReadLine();
+        }
+        static void LargestStudio()
+        {
+            try
             {
-                Console.Write("Enter Studio Id: ");
-                var id = int.Parse(Console.ReadLine());
-                rest.Delete(id, "studio");
+                var result = rest.Get<StudioInfo>("stat/largeststudio");
+                foreach (var item in result)
+                {
+                    Console.Write($"{item.StudioName} is the largest studio, with {item.ShowNumber} shows, which are: ");
+                    foreach (var title in item.TvShowTitles)
+                    {
+                        Console.Write("\t" + title + " ");
+                    }
+                    Console.WriteLine();
+                }
             }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);                
+            }
+            Console.WriteLine("Hit enter to return to menu!");
+            Console.ReadLine();
         }
         static void Main(string[] args)
         {
             rest = new RestService("http://localhost:36235/","tvshow");
+
 
             var roleSubmenu = new ConsoleMenu(args, level: 1)
                 .Add("List", () => List("Role"))
@@ -185,11 +328,20 @@ namespace JD0MUL_HFT_2022231
                 .Add("Update", () => Update("TvShow"))
                 .Add("Exit", ConsoleMenu.Close);
 
+            var statSubmenu = new ConsoleMenu(args, level: 1)
+                .Add("Best show's roles", () => BestShowRoles())
+                .Add("Worst show's actors", () => WorstShowActors())
+                .Add("Each actor best show", () => ActorBestTvShowRating())
+                .Add("Average show rating for selected actor", () => ActorShowsAverage())
+                .Add("Largest Studio",()=> LargestStudio())
+                .Add("Exit", ConsoleMenu.Close);
+
             var menu = new ConsoleMenu(args, level: 0)
                 .Add("TvShows", () => showSubmenu.Show())
                 .Add("Studios", () => studioSubmenu.Show())
                 .Add("Actors", () => actorSubmenu.Show())
                 .Add("Roles", () => roleSubmenu.Show())
+                .Add("Statistics",()=>statSubmenu.Show())
                 .Add("Exit", ConsoleMenu.Close);
             menu.Show();
         }
