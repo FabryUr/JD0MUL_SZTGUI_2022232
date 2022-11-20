@@ -17,6 +17,7 @@ namespace JD0MUL_HFT_2022231
             try
             {
                 Console.Clear();
+                Console.ForegroundColor= ConsoleColor.Yellow;
                 Console.WriteLine("Create option selected");
                 if (entity == "TvShow")
                 {
@@ -56,13 +57,15 @@ namespace JD0MUL_HFT_2022231
             try
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("List option selected");
+                Console.ForegroundColor = ConsoleColor.Green;
                 if (entity == "TvShow")
                 {
                     List<TvShow> tvshows = rest.Get<TvShow>("tvshow");
                     Console.WriteLine("Id" + "\t" + "Title");
                     foreach (var item in tvshows)
-                    {
+                    {                        
                         Console.WriteLine(item.TvShowId + "\t" + item.Title);
                     }
                 }
@@ -98,8 +101,7 @@ namespace JD0MUL_HFT_2022231
             {
                 Console.WriteLine(e.Message);
             }
-            
-            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Hit enter to return to menu!");
             Console.ReadLine();
         }
@@ -108,13 +110,16 @@ namespace JD0MUL_HFT_2022231
             try
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Update option selected");
                 if (entity == "TvShow")
                 {
                     Console.Write("Enter tv show's Id to update: ");
                     var id = int.Parse(Console.ReadLine());
                     var tvshow = rest.Get<TvShow>(id, "tvshow");
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"[old name: {tvshow.Title}]");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write("Enter the new tv show title: ");
                     tvshow.Title = Console.ReadLine();
                     rest.Put(tvshow, "tvshow");
@@ -124,7 +129,9 @@ namespace JD0MUL_HFT_2022231
                     Console.Write("Enter actor's Id to update: ");
                     var id = int.Parse(Console.ReadLine());
                     var actor = rest.Get<Actor>(id, "actor");
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"[old name: {actor.ActorName}]");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write("Enter the new actor name: ");
                     actor.ActorName = Console.ReadLine();
                     rest.Put(actor, "actor");
@@ -134,7 +141,9 @@ namespace JD0MUL_HFT_2022231
                     Console.Write("Enter role's Id to update: ");
                     var id = int.Parse(Console.ReadLine());
                     var role = rest.Get<Role>(id, "role");
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"[old name: {role.RoleName}]");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write("Enter the new role name: ");
                     role.RoleName = Console.ReadLine();
                     rest.Put(role, "role");
@@ -144,7 +153,9 @@ namespace JD0MUL_HFT_2022231
                     Console.Write("Enter studio's Id to update: ");
                     var id = int.Parse(Console.ReadLine());
                     var studio = rest.Get<Studio>(id, "studio");
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"[old name: {studio.StudioName}]");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write("Enter the new studio name: ");
                     studio.StudioName = Console.ReadLine();
                     rest.Put(studio, "studio");
@@ -162,6 +173,7 @@ namespace JD0MUL_HFT_2022231
             try
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Delete option selected");
                 if (entity == "TvShow")
                 {
@@ -200,13 +212,15 @@ namespace JD0MUL_HFT_2022231
             try
             {
                 List<Best> result = rest.Get<Best>("stat/besttvshowroles");
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Best tv show's roles:");
+                Console.ForegroundColor = ConsoleColor.Green;
                 foreach (var best in result)
                 {
                     Console.Write($"{best.Title} show's roles: ");
                     foreach (var item in best.Roles)
                     {
-                        Console.Write(item.RoleName + "," + "\t");
+                        Console.Write(item.RoleName + "," + " ");
                     }
                     Console.WriteLine();
                 }
@@ -215,22 +229,26 @@ namespace JD0MUL_HFT_2022231
             {
                 Console.WriteLine(e.Message);
             }
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Hit enter to return to menu!");
             Console.ReadLine();
         }
         static void WorstShowActors()
         {
             List<Worst> result = rest.Get<Worst>("stat/worstshowactors");
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Worst tv show's actors:");
+            Console.ForegroundColor = ConsoleColor.Green;
             foreach (var worst in result)
             {
                 Console.Write($"{worst.Title} show's roles:");
                 foreach (var item in worst.Actors)
                 {
-                    Console.Write(item.ActorName + "," + "\t");
+                    Console.Write(item.ActorName + "," + " ");
                 }
                 Console.WriteLine();
             }
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Hit enter to return to menu!");
             Console.ReadLine();
         }
@@ -239,12 +257,18 @@ namespace JD0MUL_HFT_2022231
             try
             {
                 List<ActorInfo> result = rest.Get<ActorInfo>("stat/actorbesttvshowrating");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Each actor's best show(s):");
                 foreach (var item in result)
                 {
-                    Console.Write($"{item.ActorName}'s film(s): ({item.Rating})");
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"{item.ActorName}'s film(s): ");
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.Write($"({item.Rating}) ");
                     foreach (var title in item.Titles)
                     {
-                        Console.Write(title + "," + "\t");
+                        Console.Write(title + "," + " ");
                     }
                     Console.WriteLine();
                 }
@@ -253,6 +277,7 @@ namespace JD0MUL_HFT_2022231
             {
                 Console.WriteLine(e.Message);
             }
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Hit enter to return to menu!");
             Console.ReadLine();
         }
@@ -263,13 +288,15 @@ namespace JD0MUL_HFT_2022231
                 Console.Write("Enter actor id to show average show rating: ");
                 var id = int.Parse(Console.ReadLine());
                 var result = rest.Get<ActorRateInfo>(id, "stat/actorshowsaverage");
+                Console.ForegroundColor= ConsoleColor.Green;
                 Console.WriteLine($"{result.ActorName} has {result.avgRating} average show rating");
             }
             catch (ArgumentException e)
             {
                 Console.WriteLine(e.Message);
-                
-            }           
+
+            }
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Hit enter to return to menu!");
             Console.ReadLine();
         }
@@ -280,6 +307,7 @@ namespace JD0MUL_HFT_2022231
                 var result = rest.Get<StudioInfo>("stat/largeststudio");
                 foreach (var item in result)
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write($"{item.StudioName} is the largest studio, with {item.ShowNumber} shows, which are: ");
                     foreach (var title in item.TvShowTitles)
                     {
@@ -290,8 +318,9 @@ namespace JD0MUL_HFT_2022231
             }
             catch (ArgumentException e)
             {
-                Console.WriteLine(e.Message);                
+                Console.WriteLine(e.Message);
             }
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Hit enter to return to menu!");
             Console.ReadLine();
         }
@@ -299,7 +328,7 @@ namespace JD0MUL_HFT_2022231
         {
             rest = new RestService("http://localhost:36235/","tvshow");
 
-
+            Console.ForegroundColor = ConsoleColor.Cyan;
             var roleSubmenu = new ConsoleMenu(args, level: 1)
                 .Add("List", () => List("Role"))
                 .Add("Create", () => Create("Role"))
