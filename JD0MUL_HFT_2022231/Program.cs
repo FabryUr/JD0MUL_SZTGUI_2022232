@@ -263,7 +263,7 @@ namespace JD0MUL_HFT_2022231
                 {
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write($"{item.ActorName}'s film(s): ");
+                    Console.Write($"{item.ActorName}'s show(s): ");
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.Write($"({item.Rating}) ");
                     foreach (var title in item.Titles)
