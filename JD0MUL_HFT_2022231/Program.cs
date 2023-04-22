@@ -241,7 +241,7 @@ namespace JD0MUL_HFT_2022231
             Console.ForegroundColor = ConsoleColor.Green;
             foreach (var worst in result)
             {
-                Console.Write($"{worst.Title} show's roles:");
+                Console.Write($"{worst.Title} show's actors:");
                 foreach (var item in worst.Actors)
                 {
                     Console.Write(item.ActorName + "," + " ");
