@@ -1,3 +1,4 @@
+using JD0MUL_HFT_2022231.Endpoint.Services;
 using JD0MUL_HFT_2022231.Logic;
 using JD0MUL_HFT_2022231.Logic.Interfaces;
 using JD0MUL_HFT_2022231.Models;
@@ -43,6 +44,8 @@ namespace JD0MUL_HFT_2022231.Endpoint
             services.AddTransient<IActorLogic, ActorLogic>();
             services.AddTransient<IStudioLogic, StudioLogic>();
 
+            services.AddSignalR();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -74,6 +77,7 @@ namespace JD0MUL_HFT_2022231.Endpoint
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<SignalRHub>("/hub");
             });
         }
     }
