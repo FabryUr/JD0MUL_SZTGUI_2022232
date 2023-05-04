@@ -22,12 +22,7 @@ namespace JD0MUL_WPF_2022232.WpfClient.ViewModels
         public ActorRateInfo AverageTvShowRatingsByActor { get; set; }
         public List<StudioInfo> LargestStudios { get; set; }
 
-        public ICommand ShowBestTvShowRolesCommand { get; set; }
-        public ICommand ShowWorstTvShowActorsCommand { get; set; }
-        public ICommand ShowBestTvShowByActorsCommand { get; set; }
         public ICommand ShowAverageTvShowRatingByActorCommand { get; set; }
-        public ICommand ShowLargestStudiosCommand { get; set; }
-
         public static bool IsInDesignMode
         {
             get
@@ -53,10 +48,10 @@ namespace JD0MUL_WPF_2022232.WpfClient.ViewModels
             }
             set 
             {
-                if (value != null)
+                if (value != null && value>0)
                 {
                     actorIdx = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(ActorIdx));
                     (ShowAverageTvShowRatingByActorCommand as RelayCommand).NotifyCanExecuteChanged();
                 }
             } 
@@ -69,39 +64,30 @@ namespace JD0MUL_WPF_2022232.WpfClient.ViewModels
             {
                 rest = new RestService("http://localhost:36235/");
 
-                ShowBestTvShowRolesCommand = new  RelayCommand(() =>
-                {
-                     BestTvShowRoles = rest.Get<Best>("Stat/BestTvShowRoles"); OnPropertyChanged();
-                });
+                BestTvShowRoles = rest.Get<Best>("Stat/BestTvShowRoles"); OnPropertyChanged(nameof(BestTvShowRoles));
 
-                ShowWorstTvShowActorsCommand = new RelayCommand(() =>
-                {
-                    WorstShowActors = rest.Get<Worst>("Stat/WorstShowActors"); OnPropertyChanged();
-                });
+                WorstShowActors = rest.Get<Worst>("Stat/WorstShowActors"); OnPropertyChanged(nameof(WorstShowActors));
 
-                ShowBestTvShowByActorsCommand = new RelayCommand(() =>
-                {
-                    BestTvShowsByActor = rest.Get<ActorInfo>("Stat/ActorBestTvShowRating"); OnPropertyChanged();
-                });
-
-                ShowLargestStudiosCommand = new RelayCommand(() =>
-                {
-                    LargestStudios = rest.Get<StudioInfo>("Stat/LargestStudio"); OnPropertyChanged();
-                });
+                BestTvShowsByActor = rest.Get<ActorInfo>("Stat/ActorBestTvShowRating"); OnPropertyChanged(nameof(BestTvShowsByActor));
+                
+                LargestStudios = rest.Get<StudioInfo>("Stat/LargestStudio"); OnPropertyChanged(nameof(LargestStudios));
                 
 
                 ShowAverageTvShowRatingByActorCommand = new RelayCommand(() =>
                 {
                     try
                     {
-                        AverageTvShowRatingsByActor = rest.Get<ActorRateInfo>(actorIdx, "Stat/ActorShowsAverage"); OnPropertyChanged();
+                        AverageTvShowRatingsByActor = rest.Get<ActorRateInfo>(actorIdx, "Stat/ActorShowsAverage"); OnPropertyChanged(nameof(AverageTvShowRatingsByActor));
+                        ;
                     }
                     catch (ArgumentException ex)
                     {
                         ErrorMessage = ex.Message;
                     }                    
                 });
+                ActorIdx = 1;
             }
+            ;
         }
     }
     
