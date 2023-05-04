@@ -5,17 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JD0MUL_WPF_2022232.WpfClient.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Background="LightGray">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
         <StackPanel>
-            <Button Content="Actors" Padding="10" Margin="100,20,100,50" Command="{Binding OpenActorCommand}"/>
-            <Button Content="Roles" Padding="10" Margin="100,0,100,50" Command="{Binding OpenRoleCommand}"/>
-            <Button Content="Studios" Padding="10" Margin="100,0,100,50" Command="{Binding OpenStudioCommand}"/>
-            <Button Content="TvShows" Padding="10" Margin="100,0,100,50" Command="{Binding OpenTvShowCommand}"/>
-            <Button Content="Statistics" Padding="10" Margin="100,0,100,50" Command="{Binding OpenStatisticsCommand}"/>
+            <Image Source="/imdb.png" Width="50"/>
+            <Button Content="Actors" Padding="10" Margin="100,20,100,40" Command="{Binding OpenActorCommand}"/>
+            <Button Content="Roles" Padding="10" Margin="100,0,100,40" Command="{Binding OpenRoleCommand}"/>
+            <Button Content="Studios" Padding="10" Margin="100,0,100,40" Command="{Binding OpenStudioCommand}"/>
+            <Button Content="TvShows" Padding="10" Margin="100,0,100,40" Command="{Binding OpenTvShowCommand}"/>
+            <Button Content="Statistics" Padding="10" Margin="100,0,100,40" Command="{Binding OpenStatisticsCommand}"/>
 
         </StackPanel>
 

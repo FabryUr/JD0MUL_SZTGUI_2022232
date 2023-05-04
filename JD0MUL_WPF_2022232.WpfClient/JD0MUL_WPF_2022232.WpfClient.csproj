@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="imdb.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\JD0MUL_HFT_2022231.Models\JD0MUL_HFT_2022231.Models.csproj" />
   </ItemGroup>
 
@@ -15,5 +19,9 @@
 		<PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.2" />
 		<PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="imdb.png" />
 	</ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JD0MUL_WPF_2022232.WpfClient.ViewModels"
         mc:Ignorable="d"
-        Title="TvShowWindow" Height="450" Width="800">
+        Title="TvShowWindow" Height="450" Width="800" Background="LightGray">
     <Window.DataContext>
         <local:TvShowWindowViewModel/>
     </Window.DataContext>
@@ -14,10 +14,17 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding TvShows}" SelectedItem="{Binding SelectedTvShow}">
+        <ListBox Background="LightGray" ItemsSource="{Binding TvShows}" SelectedItem="{Binding SelectedTvShow}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding Title}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding TvShowId}"/>
+                        <Label Grid.Column="1" Content="{Binding Title}"/>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
