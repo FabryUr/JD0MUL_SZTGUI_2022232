@@ -2,11 +2,25 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
-    <link rel="stylesheet" href="style.css"/>
+    <title>Main page</title>
+    <link rel="stylesheet" href="indexstyle.css" />
 </head>
 <body>
-
-    <script src="script.js"></script>
+    <h1>Welcome to IMBd</h1>
+    <div id="imdb">
+        <img src="imdb.png" />
+    </div>
+    <div id="formdiv">
+        <label>Actor Page</label>
+        <button type="button" onclick="window.location.href='http://localhost:21887/actor.html'">Go To Actor Page</button>
+        <label>Role Page</label>
+        <button type="button" onclick="window.location.href='http://localhost:21887/role.html'">Go To Role Page</button>
+        <label>Studio Page</label>
+        <button type="button" onclick="window.location.href='http://localhost:21887/studio.html'">Go To Studio Page</button>
+        <label>TvShow Page</label>
+        <button type="button" onclick="window.location.href='http://localhost:21887/tvshow.html'">Go To Tvshow Page</button>
+        <label>Statistic Page</label>
+        <button type="button" onclick="window.location.href='http://localhost:21887/stat.html'">Go To Statistic Page</button>
+    </div>
 </body>
 </html>

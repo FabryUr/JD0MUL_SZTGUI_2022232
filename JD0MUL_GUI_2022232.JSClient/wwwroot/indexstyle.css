@@ -1,0 +1,51 @@
+﻿table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+}
+
+th {
+    background-color: lightblue;
+}
+
+#imdb {
+    text-align: center;
+}
+#imdb img {
+    width: 100px;
+    height: auto;
+}
+#formdiv {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    text-align:center;
+}
+
+    #formdiv label, button {
+        margin: 10px;
+        padding: 7px;
+    }
+
+    #formdiv label {
+        font-weight: bolder;
+        text-align: center;
+    }
+    #formdiv button {
+        width: 200px;
+        margin: 0 auto;
+    }
+
+h1,h3{
+    text-align:center;
+}

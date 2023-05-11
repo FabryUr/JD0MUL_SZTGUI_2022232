@@ -4,4 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="imdb.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\imdb.png" />
+  </ItemGroup>
+
 </Project>
