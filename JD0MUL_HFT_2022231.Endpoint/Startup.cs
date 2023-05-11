@@ -70,6 +70,13 @@ namespace JD0MUL_HFT_2022231.Endpoint
                 var response = new { Msg = exception.Message };
                 await context.Response.WriteAsJsonAsync(response);
             }));
+
+            app.UseCors(x => x
+                .AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins("http://localhost:21887"));
+
             app.UseRouting();
 
             app.UseAuthorization();
