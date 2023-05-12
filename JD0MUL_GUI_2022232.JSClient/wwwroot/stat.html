@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Statistics UI</title>
+    <link rel="stylesheet" href="statstyle.css"/>
+</head>
+<body>
+    <h1>Statistics</h1>
+
+    <div id="formdiv">
+        <label>Actor ID to search the average rating for his/her TvShows</label>
+        <input type="number" id="actorid" />
+        <button type="button" onclick="getratingdata()">Search</button>
+        
+    </div>
+    <div id="searchformdiv">
+        <h3>Actor Average rating</h3>
+        <table id="actorrateinfotable">
+            <thead>
+                <tr>
+                    <th>Actor Name</th>
+                    <th>Average Rating</th>
+                </tr>
+            </thead>
+            <tbody id="actorrateinforesultarea">
+            </tbody>
+        </table>
+    </div>
+    <h3>Largest Studio and it's TvShows</h3>
+    <table id="studinfotable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Titles</th>
+            </tr>
+        </thead>
+        <tbody id="studioinforesultarea">
+        </tbody>
+    </table>
+
+    <h3>Best TvShow and it's Roles</h3>
+    <table id="besttable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Role Names</th>
+            </tr>
+        </thead>
+        <tbody id="bestresultarea">
+        </tbody>
+    </table>
+
+    <h3>Worst TvShow and it's Actors</h3>
+    <table id="worsttable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Actor Names</th>
+            </tr>
+        </thead>
+        <tbody id="worstresultarea">
+        </tbody>
+    </table>
+
+
+    <h3>Best TvShow for each Actor</h3>
+    <table id="actorinfotable">
+        <thead>
+            <tr>
+                <th>Actor Name</th>
+                <th>Title</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody id="actorinforesultarea">
+        </tbody>
+    </table>
+
+    <script src="Statscript.js"></script>
+</body>
+</html>

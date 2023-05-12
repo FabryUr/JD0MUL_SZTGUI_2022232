@@ -1,0 +1,52 @@
+﻿table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+}
+
+th {
+    background-color: lightblue;
+}
+
+#formdiv {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+    #formdiv h3, button, input {
+        margin: 10px;
+        padding: 7px;
+    }
+
+    #formdiv h3 {
+        font-weight: bolder;
+    }
+
+#searchformdiv {
+    display: none;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+    #searchformdiv label, button, input {
+        margin: 10px;
+        padding: 7px;
+    }
+
+    #searchformdiv label {
+        font-weight: bolder;
+    }
+table button {
+    padding: 2px;
+}
